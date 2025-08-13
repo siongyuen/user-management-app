@@ -1,18 +1,26 @@
 .user-management {
   padding: 0;
+  background-color: #000 !important;
+  min-height: 100vh;
 }
 
 .card {
   margin-bottom: 0;
+  background-color: #181818 !important;
+  color: #fff;
 }
 
 .card-header {
   padding: 1.5rem;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #333;
+  background-color: #222 !important;
+  color: #fff;
 }
 
 .card-body {
   padding: 1.5rem;
+  background-color: #181818 !important;
+  color: #fff;
 }
 
 .table {
@@ -22,15 +30,18 @@
 .table th {
   border-top: none;
   font-weight: 600;
-  color: #495057;
+  color: #fff;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  background-color: #222 !important;
 }
 
 .table td {
   vertical-align: middle;
   padding: 1rem 0.75rem;
+  color: #fff;
+  background-color: #181818 !important;
 }
 
 .table-active {
@@ -55,12 +66,12 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f8f9fa;
+  background-color: #333;
 }
 
 .dropdown-item.active {
-  background-color: #e7f3ff;
-  color: #0056b3;
+  background-color: #333;
+  color: #fff;
 }
 
 .badge {
@@ -70,14 +81,14 @@
 }
 
 .status-active {
-  background-color: #d1e7dd;
+  background-color: #222;
   color: #0f5132;
   border: 1px solid #badbcc;
 }
 
 .status-inactive {
-  background-color: #f8d7da;
-  color: #58151c;
+  background-color: #333;
+  color: #dc3545;
   border: 1px solid #f5c2c7;
 }
 
@@ -148,32 +159,33 @@
 }
 
 .page-link {
-  color: #495057;
-  border-color: #dee2e6;
+  color: #fff;
+  border-color: #333;
+  background-color: #181818;
   padding: 0.5rem 0.75rem;
 }
 
 .page-link:hover {
-  color: #0056b3;
-  background-color: #e9ecef;
-  border-color: #dee2e6;
+  color: #fff;
+  background-color: #333;
+  border-color: #333;
 }
 
 .page-item.active .page-link {
   background-color: #0d6efd;
   border-color: #0d6efd;
-  color: white;
+  color: #fff;
 }
 
 .page-item.disabled .page-link {
   color: #6c757d;
-  background-color: #fff;
-  border-color: #dee2e6;
+  background-color: #222;
+  border-color: #333;
 }
 
 .pagination-info {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: #bbb;
 }
 
 /* Responsive pagination */
