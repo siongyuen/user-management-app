@@ -13,6 +13,12 @@ export class UserManagementComponent implements OnInit {
   selectedUsers: Set<number> = new Set();
   allSelected = false;
   showCreateModal = false;
+  
+  // Pagination properties
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalPages = 0;
+  paginatedUsers: User[] = [];
 
   newUser = {
     name: '',
@@ -33,7 +39,59 @@ export class UserManagementComponent implements OnInit {
   loadUsers(): void {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
+      this.updatePagination();
     });
+  }
+
+  updatePagination(): void {
+    this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+    this.updatePaginatedUsers();
+  }
+
+  updatePaginatedUsers(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedUsers = this.users.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedUsers();
+    }
+  }
+
+  goToFirstPage(): void {
+    this.goToPage(1);
+  }
+
+  goToLastPage(): void {
+    this.goToPage(this.totalPages);
+  }
+
+  goToPreviousPage(): void {
+    this.goToPage(this.currentPage - 1);
+  }
+
+  goToNextPage(): void {
+    this.goToPage(this.currentPage + 1);
+  }
+
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
+    
+    // Adjust start page if we're near the end
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   loadGroups(): void {
@@ -45,10 +103,19 @@ export class UserManagementComponent implements OnInit {
   toggleSelectAll(): void {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
-      this.selectedUsers = new Set(this.users.map(user => user.id));
+      // Select all users on current page
+      this.paginatedUsers.forEach(user => this.selectedUsers.add(user.id));
     } else {
-      this.selectedUsers.clear();
+      // Deselect all users on current page
+      this.paginatedUsers.forEach(user => this.selectedUsers.delete(user.id));
     }
+    this.updateSelectAllState();
+  }
+
+  updateSelectAllState(): void {
+    const currentPageUserIds = this.paginatedUsers.map(user => user.id);
+    const selectedOnCurrentPage = currentPageUserIds.filter(id => this.selectedUsers.has(id)).length;
+    this.allSelected = selectedOnCurrentPage === currentPageUserIds.length && currentPageUserIds.length > 0;
   }
 
   toggleUserSelection(userId: number): void {
@@ -57,7 +124,7 @@ export class UserManagementComponent implements OnInit {
     } else {
       this.selectedUsers.add(userId);
     }
-    this.allSelected = this.selectedUsers.size === this.users.length;
+    this.updateSelectAllState();
   }
 
   activateUser(userId: number): void {
@@ -106,8 +173,8 @@ export class UserManagementComponent implements OnInit {
   deleteUser(userId: number): void {
     if (confirm('Are you sure you want to delete this user?')) {
       this.userService.deleteUser(userId).subscribe(() => {
-        this.loadUsers();
         this.selectedUsers.delete(userId);
+        this.loadUsers();
       });
     }
   }
@@ -172,5 +239,10 @@ export class UserManagementComponent implements OnInit {
 
   toggleSelectUser(userId: number): void {
     this.toggleUserSelection(userId);
+  }
+
+  // Helper method for template
+  min(a: number, b: number): number {
+    return Math.min(a, b);
   }
 }
