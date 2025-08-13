@@ -6,9 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --configuration=production --base-href=/user-management-app/",
+    "build:docs": "ng build --configuration=production --base-href=/user-management-app/ --output-path=docs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration=production --base-href=/user-management-app/ && npx angular-cli-ghpages --dir=dist/user-management-app"
+    "deploy": "npm run build:docs"
   },
   "private": true,
   "dependencies": {
