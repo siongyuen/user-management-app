@@ -3,7 +3,7 @@ export interface User {
   name: string;
   email: string;
   status: 'active' | 'inactive';
-  group: string;
+  groups: string[]; // Changed to support multiple groups
   role: string;
   joinDate: string;
   lastLogin: string;
