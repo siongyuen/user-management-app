@@ -20,6 +20,10 @@ export class UserManagementComponent implements OnInit {
   totalPages = 0;
   paginatedUsers: User[] = [];
 
+  // Notification properties
+  notifications: Array<{id: number, message: string, type: 'success' | 'error', timestamp: number}> = [];
+  private notificationId = 0;
+
   newUser = {
     name: '',
     email: '',
@@ -128,26 +132,85 @@ export class UserManagementComponent implements OnInit {
   }
 
   activateUser(userId: number): void {
-    this.userService.updateUserStatus(userId, 'active').subscribe(() => {
-      this.loadUsers();
+    const user = this.users.find(u => u.id === userId);
+    const userName = user ? user.name : `User ${userId}`;
+    
+    this.userService.updateUserStatus(userId, 'active').subscribe({
+      next: (success) => {
+        if (success) {
+          this.loadUsers();
+          this.showSuccessNotification(`Successfully activated ${userName}`);
+        } else {
+          this.showErrorNotification(`Failed to activate ${userName}`);
+        }
+      },
+      error: (error) => {
+        this.showErrorNotification(`Error activating ${userName}: ${error.message || 'Unknown error'}`);
+      }
     });
   }
 
   deactivateUser(userId: number): void {
-    this.userService.updateUserStatus(userId, 'inactive').subscribe(() => {
-      this.loadUsers();
+    const user = this.users.find(u => u.id === userId);
+    const userName = user ? user.name : `User ${userId}`;
+    
+    this.userService.updateUserStatus(userId, 'inactive').subscribe({
+      next: (success) => {
+        if (success) {
+          this.loadUsers();
+          this.showSuccessNotification(`Successfully deactivated ${userName}`);
+        } else {
+          this.showErrorNotification(`Failed to deactivate ${userName}`);
+        }
+      },
+      error: (error) => {
+        this.showErrorNotification(`Error deactivating ${userName}: ${error.message || 'Unknown error'}`);
+      }
     });
   }
 
   assignUserToGroup(userId: number, groupName: string): void {
-    this.userService.updateUserGroup(userId, groupName).subscribe(() => {
-      this.loadUsers();
+    const user = this.users.find(u => u.id === userId);
+    const userName = user ? user.name : `User ${userId}`;
+    
+    // Determine action before the update (since updateUserGroup toggles membership)
+    const wasInGroup = user && user.groups.includes(groupName);
+    
+    this.userService.updateUserGroup(userId, groupName).subscribe({
+      next: (success) => {
+        if (success) {
+          this.loadUsers();
+          if (wasInGroup) {
+            this.showSuccessNotification(`Successfully removed ${userName} from ${groupName} group`);
+          } else {
+            this.showSuccessNotification(`Successfully added ${userName} to ${groupName} group`);
+          }
+        } else {
+          this.showErrorNotification(`Failed to update group assignment for ${userName}`);
+        }
+      },
+      error: (error) => {
+        this.showErrorNotification(`Error updating group assignment for ${userName}: ${error.message || 'Unknown error'}`);
+      }
     });
   }
 
   updateUserGroups(userId: number, groups: string[]): void {
-    this.userService.updateUserGroups(userId, groups).subscribe(() => {
-      this.loadUsers();
+    const user = this.users.find(u => u.id === userId);
+    const userName = user ? user.name : `User ${userId}`;
+    
+    this.userService.updateUserGroups(userId, groups).subscribe({
+      next: (success) => {
+        if (success) {
+          this.loadUsers();
+          this.showSuccessNotification(`Successfully updated group assignments for ${userName}`);
+        } else {
+          this.showErrorNotification(`Failed to update group assignments for ${userName}`);
+        }
+      },
+      error: (error) => {
+        this.showErrorNotification(`Error updating group assignments for ${userName}: ${error.message || 'Unknown error'}`);
+      }
     });
   }
 
@@ -171,10 +234,23 @@ export class UserManagementComponent implements OnInit {
   }
 
   deleteUser(userId: number): void {
-    if (confirm('Are you sure you want to delete this user?')) {
-      this.userService.deleteUser(userId).subscribe(() => {
-        this.selectedUsers.delete(userId);
-        this.loadUsers();
+    const user = this.users.find(u => u.id === userId);
+    const userName = user ? user.name : `User ${userId}`;
+    
+    if (confirm(`Are you sure you want to delete ${userName}?`)) {
+      this.userService.deleteUser(userId).subscribe({
+        next: (success) => {
+          if (success) {
+            this.selectedUsers.delete(userId);
+            this.loadUsers();
+            this.showSuccessNotification(`Successfully deleted ${userName}`);
+          } else {
+            this.showErrorNotification(`Failed to delete ${userName}`);
+          }
+        },
+        error: (error) => {
+          this.showErrorNotification(`Error deleting ${userName}: ${error.message || 'Unknown error'}`);
+        }
       });
     }
   }
@@ -185,11 +261,42 @@ export class UserManagementComponent implements OnInit {
     const count = this.selectedUsers.size;
     if (confirm(`Are you sure you want to delete ${count} selected user(s)?`)) {
       const userIds = Array.from(this.selectedUsers);
+      let deletedCount = 0;
+      let errorCount = 0;
+      
       userIds.forEach(userId => {
-        this.userService.deleteUser(userId).subscribe(() => {
-          this.selectedUsers.delete(userId);
-          if (this.selectedUsers.size === 0) {
-            this.loadUsers();
+        const user = this.users.find(u => u.id === userId);
+        const userName = user ? user.name : `User ${userId}`;
+        
+        this.userService.deleteUser(userId).subscribe({
+          next: (success) => {
+            if (success) {
+              deletedCount++;
+              this.selectedUsers.delete(userId);
+            } else {
+              errorCount++;
+            }
+            
+            // Check if all deletions are complete
+            if (deletedCount + errorCount === userIds.length) {
+              this.loadUsers();
+              if (deletedCount > 0) {
+                this.showSuccessNotification(`Successfully deleted ${deletedCount} user(s)`);
+              }
+              if (errorCount > 0) {
+                this.showErrorNotification(`Failed to delete ${errorCount} user(s)`);
+              }
+            }
+          },
+          error: (error) => {
+            errorCount++;
+            if (deletedCount + errorCount === userIds.length) {
+              this.loadUsers();
+              if (deletedCount > 0) {
+                this.showSuccessNotification(`Successfully deleted ${deletedCount} user(s)`);
+              }
+              this.showErrorNotification(`Failed to delete ${errorCount} user(s)`);
+            }
           }
         });
       });
@@ -219,13 +326,19 @@ export class UserManagementComponent implements OnInit {
 
   createUser(): void {
     if (!this.newUser.name || !this.newUser.email) {
-      alert('Please fill in all required fields.');
+      this.showErrorNotification('Please fill in all required fields (Name and Email)');
       return;
     }
 
-    this.userService.createUser(this.newUser).subscribe(user => {
-      this.loadUsers();
-      this.closeCreateModal();
+    this.userService.createUser(this.newUser).subscribe({
+      next: (user) => {
+        this.loadUsers();
+        this.closeCreateModal();
+        this.showSuccessNotification(`Successfully created user: ${user.name}`);
+      },
+      error: (error) => {
+        this.showErrorNotification(`Error creating user: ${error.message || 'Unknown error'}`);
+      }
     });
   }
 
@@ -244,5 +357,33 @@ export class UserManagementComponent implements OnInit {
   // Helper method for template
   min(a: number, b: number): number {
     return Math.min(a, b);
+  }
+
+  // Notification methods
+  showNotification(message: string, type: 'success' | 'error'): void {
+    const notification = {
+      id: ++this.notificationId,
+      message: message,
+      type: type,
+      timestamp: Date.now()
+    };
+    this.notifications.push(notification);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      this.removeNotification(notification.id);
+    }, 5000);
+  }
+
+  removeNotification(id: number): void {
+    this.notifications = this.notifications.filter(n => n.id !== id);
+  }
+
+  showSuccessNotification(message: string): void {
+    this.showNotification(message, 'success');
+  }
+
+  showErrorNotification(message: string): void {
+    this.showNotification(message, 'error');
   }
 }

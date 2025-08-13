@@ -1,4 +1,35 @@
 <div class="container-fluid">
+  <!-- Notification Toast Container -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngFor="let notification of notifications" 
+         class="toast show" 
+         [class.bg-success]="notification.type === 'success'"
+         [class.bg-danger]="notification.type === 'error'"
+         [class.text-white]="true"
+         role="alert" 
+         aria-live="assertive" 
+         aria-atomic="true">
+      <div class="toast-header" 
+           [class.bg-success]="notification.type === 'success'"
+           [class.bg-danger]="notification.type === 'error'"
+           [class.text-white]="true">
+        <i class="fas me-2" 
+           [class.fa-check-circle]="notification.type === 'success'"
+           [class.fa-exclamation-circle]="notification.type === 'error'"></i>
+        <strong class="me-auto">
+          {{ notification.type === 'success' ? 'Success' : 'Error' }}
+        </strong>
+        <button type="button" 
+                class="btn-close btn-close-white" 
+                (click)="removeNotification(notification.id)"
+                aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        {{ notification.message }}
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-12">
       <div class="card">
