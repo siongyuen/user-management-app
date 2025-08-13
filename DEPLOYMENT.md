@@ -23,7 +23,7 @@ Your Angular User Management App is now configured for automatic deployment to G
   2. Builds the Angular app for production
   3. Deploys to GitHub Pages
   
-- Your app will be available at: `https://siongyuen.github.io/user-management-app/`
+- Your app will be available at: `https://siongyuen.github.io/usermanagement-mock/`
 
 ### Manual Deployment (Alternative)
 
@@ -47,10 +47,9 @@ npm run deploy
 
 ### Action Menu Features
 - ✅ **Activate/Deactivate** - Toggle user status
-- ✅ **Group Assignment** - Assign users to 3 groups:
-  - Administrators
-  - Developers  
-  - Support
+- ✅ **Group Assignment** - Assign users to 2 groups:
+  - Portal Administrator
+  - Portal User (Users can belong to multiple groups)
 - ✅ **Current Group Display** - Shows which group user belongs to
 - ✅ **Delete User** - Remove individual users
 
@@ -72,7 +71,7 @@ npm run deploy
 ## Live Demo
 
 Once GitHub Pages is set up, your app will be live at:
-**https://siongyuen.github.io/user-management-app/**
+**https://siongyuen.github.io/usermanagement-mock/**
 
 ## Local Development
 
