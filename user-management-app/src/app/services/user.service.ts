@@ -13,7 +13,6 @@ export class UserService {
       email: 'john.doe@example.com',
       status: 'active',
       groups: ['Portal Administrator'],
-      role: 'System Admin',
       joinDate: '2023-01-15',
       lastLogin: '2024-08-13 09:30:00',
       avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=007bff&color=fff'
@@ -24,7 +23,6 @@ export class UserService {
       email: 'jane.smith@example.com',
       status: 'active',
       groups: ['Portal Administrator', 'Portal User'],
-      role: 'Senior Developer',
       joinDate: '2023-02-20',
       lastLogin: '2024-08-12 16:45:00',
       avatar: 'https://ui-avatars.com/api/?name=Jane+Smith&background=28a745&color=fff'
@@ -35,7 +33,6 @@ export class UserService {
       email: 'mike.johnson@example.com',
       status: 'inactive',
       groups: ['Portal User'],
-      role: 'Support Agent',
       joinDate: '2023-03-10',
       lastLogin: '2024-08-10 14:20:00',
       avatar: 'https://ui-avatars.com/api/?name=Mike+Johnson&background=dc3545&color=fff'
@@ -46,7 +43,6 @@ export class UserService {
       email: 'sarah.wilson@example.com',
       status: 'active',
       groups: ['Portal User'],
-      role: 'Frontend Developer',
       joinDate: '2023-04-05',
       lastLogin: '2024-08-13 08:15:00',
       avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=ffc107&color=000'
@@ -57,7 +53,6 @@ export class UserService {
       email: 'david.brown@example.com',
       status: 'active',
       groups: ['Portal Administrator'],
-      role: 'Technical Lead',
       joinDate: '2023-05-12',
       lastLogin: '2024-08-13 07:00:00',
       avatar: 'https://ui-avatars.com/api/?name=David+Brown&background=6f42c1&color=fff'
@@ -68,7 +63,6 @@ export class UserService {
       email: 'emily.davis@example.com',
       status: 'inactive',
       groups: ['Portal User'],
-      role: 'Customer Success',
       joinDate: '2023-06-18',
       lastLogin: '2024-08-09 12:30:00',
       avatar: 'https://ui-avatars.com/api/?name=Emily+Davis&background=e83e8c&color=fff'
@@ -79,7 +73,6 @@ export class UserService {
       email: 'robert.taylor@example.com',
       status: 'active',
       groups: ['Portal User'],
-      role: 'Backend Developer',
       joinDate: '2023-07-22',
       lastLogin: '2024-08-13 10:45:00',
       avatar: 'https://ui-avatars.com/api/?name=Robert+Taylor&background=20c997&color=fff'
@@ -90,7 +83,6 @@ export class UserService {
       email: 'lisa.anderson@example.com',
       status: 'active',
       groups: ['Portal Administrator', 'Portal User'],
-      role: 'Project Manager',
       joinDate: '2023-08-30',
       lastLogin: '2024-08-13 11:20:00',
       avatar: 'https://ui-avatars.com/api/?name=Lisa+Anderson&background=fd7e14&color=fff'
@@ -101,7 +93,6 @@ export class UserService {
       email: 'chris.martinez@example.com',
       status: 'active',
       groups: ['Portal User'],
-      role: 'Technical Support',
       joinDate: '2023-09-14',
       lastLogin: '2024-08-12 17:30:00',
       avatar: 'https://ui-avatars.com/api/?name=Chris+Martinez&background=6610f2&color=fff'
@@ -112,7 +103,6 @@ export class UserService {
       email: 'amanda.white@example.com',
       status: 'inactive',
       groups: ['Portal User'],
-      role: 'UI/UX Designer',
       joinDate: '2023-10-08',
       lastLogin: '2024-08-11 13:15:00',
       avatar: 'https://ui-avatars.com/api/?name=Amanda+White&background=d63384&color=fff'
@@ -123,7 +113,6 @@ export class UserService {
       email: 'kevin.garcia@example.com',
       status: 'active',
       groups: ['Portal Administrator'],
-      role: 'Full Stack Developer',
       joinDate: '2023-11-20',
       lastLogin: '2024-08-13 09:00:00',
       avatar: 'https://ui-avatars.com/api/?name=Kevin+Garcia&background=198754&color=fff'
@@ -134,7 +123,6 @@ export class UserService {
       email: 'michelle.lee@example.com',
       status: 'active',
       groups: ['Portal User'],
-      role: 'Quality Assurance',
       joinDate: '2023-12-03',
       lastLogin: '2024-08-13 08:45:00',
       avatar: 'https://ui-avatars.com/api/?name=Michelle+Lee&background=0dcaf0&color=000'

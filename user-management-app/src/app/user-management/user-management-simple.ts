@@ -19,7 +19,6 @@ export class UserManagementComponent implements OnInit {
     email: '',
     status: 'active' as 'active' | 'inactive',
     groups: [] as string[],
-    role: '',
     joinDate: new Date().toISOString().split('T')[0],
     lastLogin: new Date().toISOString().replace('T', ' ').substring(0, 19)
   };
@@ -146,14 +145,13 @@ export class UserManagementComponent implements OnInit {
       email: '',
       status: 'active',
       groups: this.groups.length > 0 ? [this.groups[0].name] : [],
-      role: '',
       joinDate: new Date().toISOString().split('T')[0],
       lastLogin: new Date().toISOString().replace('T', ' ').substring(0, 19)
     };
   }
 
   createUser(): void {
-    if (!this.newUser.name || !this.newUser.email || !this.newUser.role) {
+    if (!this.newUser.name || !this.newUser.email) {
       alert('Please fill in all required fields.');
       return;
     }

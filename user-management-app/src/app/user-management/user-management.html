@@ -61,7 +61,6 @@
                   <th>Email</th>
                   <th>Status</th>
                   <th>Group</th>
-                  <th>Role</th>
                   <th>Join Date</th>
                   <th>Last Login</th>
                   <th width="150">Actions</th>
@@ -106,7 +105,6 @@
                       <span *ngIf="user.groups.length === 0" class="text-muted fst-italic">No groups</span>
                     </div>
                   </td>
-                  <td>{{ user.role }}</td>
                   <td>{{ user.joinDate | date:'MMM dd, yyyy' }}</td>
                   <td>{{ user.lastLogin | date:'MMM dd, yyyy HH:mm' }}</td>
                   <td>
@@ -219,17 +217,6 @@
               id="userEmail"
               [(ngModel)]="newUser.email"
               name="email"
-              required>
-          </div>
-          
-          <div class="mb-3">
-            <label for="userRole" class="form-label">Role *</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="userRole"
-              [(ngModel)]="newUser.role"
-              name="role"
               required>
           </div>
           

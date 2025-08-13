@@ -4,7 +4,6 @@ export interface User {
   email: string;
   status: 'active' | 'inactive';
   groups: string[]; // Changed to support multiple groups
-  role: string;
   joinDate: string;
   lastLogin: string;
   avatar?: string;
