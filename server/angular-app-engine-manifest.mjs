@@ -1,6 +1,6 @@
 
 export default {
-  basePath: '/usermanagement-mock',
+  basePath: '/user-management-app',
   supportedLocales: {
   "en-US": ""
 },
