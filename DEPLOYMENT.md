@@ -23,7 +23,7 @@ Your Angular User Management App is now configured for automatic deployment to G
   2. Builds the Angular app for production
   3. Deploys to GitHub Pages
   
-- Your app will be available at: `https://siongyuen.github.io/usermanagement-mock/`
+- Your app will be available at: `https://siongyuen.github.io/user-management-app/`
 
 ### Manual Deployment (Alternative)
 
@@ -71,7 +71,7 @@ npm run deploy
 ## Live Demo
 
 Once GitHub Pages is set up, your app will be live at:
-**https://siongyuen.github.io/usermanagement-mock/**
+**https://siongyuen.github.io/user-management-app/**
 
 ## Local Development
 
