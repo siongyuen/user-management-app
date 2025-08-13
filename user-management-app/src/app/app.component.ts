@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <div class="app">
-      <h1>User Management App</h1>
       <app-user-management></app-user-management>
     </div>
   `,
